@@ -10,11 +10,12 @@ from discord import FFmpegPCMAudio
 import asyncio
 import time
 import requests
+import os
 
 bot = commands.Bot(command_prefix=';')
 client = discord.Client()
 
-token = ("ODg1MzMzOTczMDk2NTk1NTE2.YTlhgw.h_3jJrDjNytNuCSyfW1Cs0va040")
+
 
 user = []
 musictitle = []
@@ -697,6 +698,6 @@ async def on_reaction_add(reaction, users):
         
         
     
-
+access_token = os.environ["BOT_TOKEN"]
             
-bot.run(token)
+bot.run(access_token)
