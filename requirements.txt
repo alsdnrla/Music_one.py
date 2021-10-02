@@ -1,0 +1,11 @@
+asyncio
+selenium
+discrod.py[voice]
+pip
+beautifulsoup4
+youtube-dl
+ffmeg-python
+requests
+lxml
+urllib3
+Options
