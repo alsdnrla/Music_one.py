@@ -29,7 +29,7 @@ allplaylist = []
 
 number = 1
 
-chromedriver_dir = "C:\chromedriver\chromedriver.exe"
+
 
 def title(msg):
     global music
@@ -40,7 +40,7 @@ def title(msg):
     options = webdriver.ChromeOptions()
     options.add_argument("headless")
 
-    driver = webdriver.Chrome(chromedriver_dir, options = options)
+    driver = load_chrome_driver()
     driver.get("https://www.youtube.com/results?search_query="+msg+"+lyrics")
     source = driver.page_source
     bs = bs4.BeautifulSoup(source, 'lxml')
@@ -93,6 +93,17 @@ def play_next(ctx):
             client.loop.create_task(vc.disconnect())
 
 
+def load_chrome_driver():
+      
+    options = webdriver.ChromeOptions()
+
+    options.binary_location = os.getenv('GOOGLE_CHROME_BIN')
+
+    options.add_argument('--headless')
+    # options.add_argument('--disable-gpu')
+    options.add_argument('--no-sandbox')
+
+    return webdriver.Chrome(executable_path=str(os.environ.get('CHROME_EXECUTABLE_PATH')), chrome_options=options)            
 
 def again(ctx, url):
     global number
@@ -113,7 +124,10 @@ async def on_ready():
     print(bot.user.name)
     print("connect was sucessful")
     await bot.change_presence(status=discord.Status.online, activity=discord.Game("갬성 힙합을 연구"))
-
+    
+    if not discord.opus.is_loaded():
+        discord.opus.load_opus('opus')
+    
 @bot.command()
 async def 도움(ctx):
     embed = discord.Embed(title = "음악한곡", description = "유튜브 라이센스를 사용합니다.", color = 0x6E17E3) 
@@ -203,7 +217,7 @@ async def 재생(ctx, *, msg):
         YDL_OPTIONS = {'format': 'bestaudio', 'noplaylist':'True'}
         FFMPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
             
-        driver = webdriver.Chrome(chromedriver_dir, options = options)
+        driver = load_chrome_driver()
         driver.get("https://www.youtube.com/results?search_query="+msg+"+lyrics")
         source = driver.page_source
         bs = bs4.BeautifulSoup(source, 'lxml')
@@ -372,7 +386,7 @@ async def 멜론차트(ctx):
         YDL_OPTIONS = {'format': 'bestaudio', 'noplaylist':'True'}
         FFMPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
             
-        driver = webdriver.Chrome(chromedriver_dir, options = options)
+        driver = load_chrome_driver()
         driver.get("https://www.youtube.com/results?search_query=멜론차트")
         source = driver.page_source
         bs = bs4.BeautifulSoup(source, 'lxml')
@@ -459,7 +473,7 @@ async def 반복재생(ctx, *, msg):
         for i in range(len(musicnow) - len(user)):
             del musicnow[0]
             
-    driver = webdriver.Chrome(chromedriver_dir, options = options)
+    driver = load_chrome_driver()
     driver.get("https://www.youtube.com/results?search_query="+msg+"+lyrics")
     source = driver.page_source
     bs = bs4.BeautifulSoup(source, 'lxml')
@@ -484,8 +498,8 @@ async def 가사(ctx, song):
     options.add_argument("headless")
     
     # webdriver 생성 및 대기
-    driver = webdriver.Chrome(chromedriver_dir, options = options)
-    driver.implicitly_wait(3)
+    driver = load_chrome_driver()
+    driver.implicitly_wait(2)
     # 곡 입력 및 url 접근
     driver.get('https://vibe.naver.com/search/tracks?query='+song)
     # 페이지 HTML 소스 받기
@@ -540,7 +554,7 @@ async def 선택(ctx, menu):
     
     options = webdriver.ChromeOptions()
     options.add_argument("headless")
-    driver = webdriver.Chrome(chromedriver_dir, options = options)
+    driver = load_chrome_driver()
     
     embed = discord.Embed(title = "Music lyrics", description = "출처 - 바이브 공식사이트", color = 0x6E17E3)
     if mem == 0:
@@ -613,7 +627,7 @@ async def 즐겨찾기추가(ctx, *, msg):
             options.add_argument("headless")
 
             
-            driver = webdriver.Chrome(chromedriver_dir, options = options)
+            driver = load_chrome_driver()
             driver.get("https://www.youtube.com/results?search_query="+msg+"+lyrics")
             source = driver.page_source
             bs = bs4.BeautifulSoup(source, 'lxml')
