@@ -29,6 +29,8 @@ allplaylist = []
 
 number = 1
 
+chromedriver_dir = "C:\chromedriver\chromedriver.exe"
+
 def title(msg):
     global music
 
@@ -38,7 +40,7 @@ def title(msg):
     options = webdriver.ChromeOptions()
     options.add_argument("headless")
 
-    driver = webdriver.Chrome(options = options)
+    driver = webdriver.Chrome(chromedriver_dir, options = options)
     driver.get("https://www.youtube.com/results?search_query="+msg+"+lyrics")
     source = driver.page_source
     bs = bs4.BeautifulSoup(source, 'lxml')
@@ -114,7 +116,7 @@ async def on_ready():
 
 @bot.command()
 async def 도움(ctx):
-    embed = discord.Embed(title = "Troll music bot", description = "유튜브 라이센스를 사용합니다.", color = 0x6E17E3) 
+    embed = discord.Embed(title = "음악한곡", description = "유튜브 라이센스를 사용합니다.", color = 0x6E17E3) 
     embed.add_field(name = bot.command_prefix + "도움", value = "명령어를 볼수 있습니다,", inline = False)
     embed.add_field(name = bot.command_prefix + "들어와", value = "뮤직봇이 음성채널에 들어갑니다.", inline = False)
     embed.add_field(name = bot.command_prefix + "나가", value = "뮤직봇이 채널에서 나갑니다.", inline = False)
@@ -130,7 +132,6 @@ async def 도움(ctx):
     
     
     await ctx.send(embed=embed)
-    
 
 
 @bot.command(aliases = ('ㄷ', '컴온', '들와', '참가'))
@@ -202,7 +203,7 @@ async def 재생(ctx, *, msg):
         YDL_OPTIONS = {'format': 'bestaudio', 'noplaylist':'True'}
         FFMPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
             
-        driver = webdriver.Chrome(options = options)
+        driver = webdriver.Chrome(chromedriver_dir, options = options)
         driver.get("https://www.youtube.com/results?search_query="+msg+"+lyrics")
         source = driver.page_source
         bs = bs4.BeautifulSoup(source, 'lxml')
@@ -371,7 +372,7 @@ async def 멜론차트(ctx):
         YDL_OPTIONS = {'format': 'bestaudio', 'noplaylist':'True'}
         FFMPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
             
-        driver = webdriver.Chrome(options = options)
+        driver = webdriver.Chrome(chromedriver_dir, options = options)
         driver.get("https://www.youtube.com/results?search_query=멜론차트")
         source = driver.page_source
         bs = bs4.BeautifulSoup(source, 'lxml')
@@ -458,7 +459,7 @@ async def 반복재생(ctx, *, msg):
         for i in range(len(musicnow) - len(user)):
             del musicnow[0]
             
-    driver = webdriver.Chrome(options = options)
+    driver = webdriver.Chrome(chromedriver_dir, options = options)
     driver.get("https://www.youtube.com/results?search_query="+msg+"+lyrics")
     source = driver.page_source
     bs = bs4.BeautifulSoup(source, 'lxml')
@@ -483,7 +484,7 @@ async def 가사(ctx, song):
     options.add_argument("headless")
     
     # webdriver 생성 및 대기
-    driver = webdriver.Chrome(options = options)
+    driver = webdriver.Chrome(chromedriver_dir, options = options)
     driver.implicitly_wait(3)
     # 곡 입력 및 url 접근
     driver.get('https://vibe.naver.com/search/tracks?query='+song)
@@ -539,7 +540,7 @@ async def 선택(ctx, menu):
     
     options = webdriver.ChromeOptions()
     options.add_argument("headless")
-    driver = webdriver.Chrome(options = options)
+    driver = webdriver.Chrome(chromedriver_dir, options = options)
     
     embed = discord.Embed(title = "Music lyrics", description = "출처 - 바이브 공식사이트", color = 0x6E17E3)
     if mem == 0:
@@ -612,7 +613,7 @@ async def 즐겨찾기추가(ctx, *, msg):
             options.add_argument("headless")
 
             
-            driver = webdriver.Chrome(options = options)
+            driver = webdriver.Chrome(chromedriver_dir, options = options)
             driver.get("https://www.youtube.com/results?search_query="+msg+"+lyrics")
             source = driver.page_source
             bs = bs4.BeautifulSoup(source, 'lxml')
@@ -698,6 +699,8 @@ async def on_reaction_add(reaction, users):
         
         
     
-access_token = os.environ["BOT_TOKEN"]
+
             
+access_token = os.environ["BOT_TOKEN"] 
+
 bot.run(access_token)
