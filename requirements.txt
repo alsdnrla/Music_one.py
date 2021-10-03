@@ -1,10 +1,10 @@
 asyncio
 selenium
-discrod.py[voice]
+discord.py[voice]
 pip
 beautifulsoup4
 youtube-dl
-ffmeg-python
+ffmpeg-python
 requests
 lxml
 urllib3
