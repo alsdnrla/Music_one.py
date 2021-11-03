@@ -11,6 +11,7 @@ import asyncio
 import time
 import requests
 import os
+import discord_fortuneTell
 
 bot = commands.Bot(command_prefix=';')
 client = discord.Client()
@@ -698,7 +699,10 @@ async def on_reaction_add(reaction, users):
     
     
     
-
+@bot.command(aliases=['운세'])
+async def today_fortune(ctx, *args):
+    args = list(args)
+    await ctx.send(discord_fortuneTell.out(args))
 
 
     
