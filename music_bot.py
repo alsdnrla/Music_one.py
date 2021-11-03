@@ -1,5 +1,6 @@
 import discord 
 from discord.ext import commands
+from discord_buttons_plugin import  *
 from youtube_dl import YoutubeDL
 from bs4 import BeautifulSoup
 import bs4
@@ -707,7 +708,117 @@ async def today_fortune(ctx, *args):
 
     
     
+@bot.command()
+async def 추천곡(ctx):
+    global mum
+    options = webdriver.ChromeOptions()
+    options.add_argument("headless")
+    chromedriver_dir = "C:\chromedriver\chromedriver.exe"
 
+    driver = webdriver.Chrome(chromedriver_dir, options = options)
+
+    driver.get('https://www.music-flo.com/')
+    time.sleep(1)
+
+    html = driver.page_source
+    parse = BeautifulSoup(html, 'html.parser')
+
+    music = parse.select_one('#main > div > section.section_content_wrap.personal > div.section_content.swiper_horizon.PERSONAL_swiper_container.swiper-container-initialized.swiper-container-horizontal > ul > li.swiper-slide.type_theme.swiper-slide-active > a > div.personal_recommend_head > h4').get_text()
+    
+
+    embed = discord.Embed(title=f" <{ctx.author.name}>님을 위한 추천곡이에요.", description=music, color=0xAAFFFF)
+
+    rn = random.randint(1, 4)
+    print(rn)
+    
+    
+
+    mum = parse.select_one('#main > div > section.section_content_wrap.personal > div.section_content.swiper_horizon.PERSONAL_swiper_container.swiper-container-initialized.swiper-container-horizontal > ul > li.swiper-slide.type_theme.swiper-slide-active > a > div.me_album_tracklist > div > ul:nth-child(1) > li:nth-child({0}) > div > strong'.format(rn)).get_text()
+    embed.add_field(name=mum, value='Flo api 사용', inline=False)
+
+    im = parse.select('#main > div > section.section_content_wrap.personal > div.section_content.swiper_horizon.PERSONAL_swiper_container.swiper-container-initialized.swiper-container-horizontal > ul > li.swiper-slide.type_theme.swiper-slide-active > a > div.me_album_tracklist > div > ul:nth-child(1) > li:nth-child({0}) > div > img'.format(rn))
+        
+    for ims in im:
+        img = ims['src']
+
+    
+    embed.set_thumbnail(url=img)
+    
+    
+
+    driver.quit()
+
+    await ctx.send(embed=embed)
+    await buttons.send(
+        content = "아래쪽 버튼을 눌러주세요.",
+        channel = ctx.channel.id,
+        components = [
+            ActionRow([
+                Button(
+                    label="지금바로 재생하기", 
+                    style=ButtonType().Primary, 
+                    custom_id="button_one"       
+                )
+            ])
+        ]
+    )
+
+
+
+
+@buttons.click
+async def button_one(ctx):
+    try:
+        global vc
+        vc = await ctx.message.author.voice.channel.connect()
+    except:
+        try:
+            await vc.move_to(ctx.message.author.voice.channel)
+        except:
+            await ctx.reply("채널에 봇이 접속해 있지 않습니다.  [;들어와]명령어를 통해 봇을 추가하세요.")
+
+
+    
+    if not vc.is_playing():
+
+        #selenium웹 드라이버를 보이지 않게하는 설정
+        options = webdriver.ChromeOptions()
+        options.add_argument("headless")
+
+        
+        global entireText
+        YDL_OPTIONS = {'format': 'bestaudio', 'noplaylist':'True'}
+        FFMPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
+            
+        driver = webdriver.Chrome(chromedriver_dir, options = options)
+        try:
+            driver.get("https://www.youtube.com/results?search_query="+mum+"+lyrics")
+        except:
+            await ctx.reply("어제 들었던 곡은 이용이 안됩니다!")
+        source = driver.page_source
+        bs = bs4.BeautifulSoup(source, 'lxml')
+        entire = bs.find_all('a', {'id': 'video-title'})
+        entireNum = entire[0]
+        entireText = entireNum.text.strip()
+        musicurl = entireNum.get('href')
+        url = 'https://www.youtube.com'+musicurl
+
+        #드라이버 닫기
+
+        driver.quit()
+
+        musicnow.insert(0, entireText)
+
+        with YoutubeDL(YDL_OPTIONS) as ydl:
+            info = ydl.extract_info(url, download=False)
+        URL = info['formats'][0]['url']
+        await ctx.reply(embed = discord.Embed(title= "노래 재생", description = "현재 " + musicnow[0] + "을(를) 재생하고 있습니다.", color = 0x00ff00))
+        vc.play(FFmpegPCMAudio(URL, **FFMPEG_OPTIONS), after = lambda e: play_next(ctx))
+    else:
+        user.append(mum)
+        result,URLTEST = title(mum)
+        song_queue.append(URLTEST)
+        await ctx.reply("이미 노래가 재생 중이라" + result + "을(를) 대기열로 추가시켰습니다")
 
 
 
