@@ -147,7 +147,7 @@ async def 도움(ctx):
     embed.add_field(name = bot.command_prefix + "가사 [노래이름]", value = "노래재목과 유사한 노래 1~5개 까지의 리스트를 뽑아옵니다.", inline = False)
     embed.add_field(name = bot.command_prefix + "선택 [번호]", value = "선택된 노래의 가사를 가져옵니다.", inline = False)
     embed.add_field(name = bot.command_prefix + "즐겨찾기 [추가, 삭제]", value = "즐겨찾기한 노래의 목록을 볼수 있습니다 [추가할수 있습니다] [삭제할수 있습니다]", inline = False)
-    
+    embed.add_field(name = bot.command_prefix + "추천곡", value = "추천곡을 즉시 재생할수 있습니다. [이미 재생중이라면 목록으로 자동추가 됩니다.]", inline = False)
     
     await ctx.send(embed=embed)
 
