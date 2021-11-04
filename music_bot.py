@@ -13,6 +13,7 @@ import time
 import requests
 import os
 import discord_fortuneTell
+import random
 
 bot = commands.Bot(command_prefix=';')
 client = discord.Client()
@@ -730,7 +731,7 @@ async def 추천곡(ctx):
     embed = discord.Embed(title=f" <{ctx.author.name}>님을 위한 추천곡이에요.", description=music, color=0xAAFFFF)
 
     rn = random.randint(1, 4)
-    print(rn)
+    
     
     
 
