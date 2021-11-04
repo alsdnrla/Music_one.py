@@ -714,9 +714,9 @@ async def 추천곡(ctx):
     global mum
     options = webdriver.ChromeOptions()
     options.add_argument("headless")
-    chromedriver_dir = "C:\chromedriver\chromedriver.exe"
+    
 
-    driver = webdriver.Chrome(chromedriver_dir, options = options)
+    driver = load_chrome_driver()
 
     driver.get('https://www.music-flo.com/')
     time.sleep(1)
@@ -791,7 +791,7 @@ async def button_one(ctx):
         YDL_OPTIONS = {'format': 'bestaudio', 'noplaylist':'True'}
         FFMPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
             
-        driver = webdriver.Chrome(chromedriver_dir, options = options)
+        driver = load_chrome_driver()
         try:
             driver.get("https://www.youtube.com/results?search_query="+mum+"+lyrics")
         except:
