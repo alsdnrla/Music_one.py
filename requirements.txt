@@ -10,5 +10,4 @@ lxml
 urllib3
 Options
 datetime
-random
 discord_buttons_plugin
