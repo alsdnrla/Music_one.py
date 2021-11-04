@@ -16,6 +16,7 @@ import discord_fortuneTell
 
 bot = commands.Bot(command_prefix=';')
 client = discord.Client()
+buttons = ButtonsClient(bot)
 
 
 
