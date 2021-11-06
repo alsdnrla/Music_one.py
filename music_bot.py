@@ -838,7 +838,7 @@ async def 추천곡리스트(ctx):
     driver = load_chrome_driver()
 
     driver.get('https://www.music-flo.com/')
-    time.sleep(1)
+    time.sleep(3)
 
     html = driver.page_source
     parse = BeautifulSoup(html, 'html.parser')
