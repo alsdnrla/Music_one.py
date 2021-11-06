@@ -506,6 +506,7 @@ async def 가사(ctx, song):
     driver.implicitly_wait(2)
     # 곡 입력 및 url 접근
     driver.get('https://vibe.naver.com/search/tracks?query='+song)
+    time.sleep(2)
     # 페이지 HTML 소스 받기
     html = driver.page_source
     soup = BeautifulSoup(html, 'html.parser')
@@ -568,6 +569,7 @@ async def 선택(ctx, menu):
         
     else:
         driver.get('https://vibe.naver.com'+datas[mem-1][2])
+        time.sleep(2)
         html = driver.page_source
         soup = BeautifulSoup(html, 'html.parser')
         lyrics = soup.select_one('#content > div > p.lyrics').get_text()
@@ -825,7 +827,67 @@ async def button_one(ctx):
 
 
 
+@bot.command()
+async def 추천곡리스트(ctx):
+    global mum
+    mum = []
+    options = webdriver.ChromeOptions()
+    options.add_argument("headless")
+    
 
+    driver = load_chrome_driver()
+
+    driver.get('https://www.music-flo.com/')
+    time.sleep(1)
+
+    html = driver.page_source
+    parse = BeautifulSoup(html, 'html.parser')
+
+    music = parse.select_one('#main > div > section.section_content_wrap.personal > div.section_content.swiper_horizon.PERSONAL_swiper_container.swiper-container-initialized.swiper-container-horizontal > ul > li.swiper-slide.type_theme.swiper-slide-active > a > div.personal_recommend_head > h4').get_text()
+    
+
+    embed = discord.Embed(title=f" <{ctx.author.name}>님을 위한 추천곡이에요.", description=music, color=0xAAFFFF)
+
+    
+    
+    for i in range(1,5):
+        mum.append(parse.select_one('#main > div > section.section_content_wrap.personal > div.section_content.swiper_horizon.PERSONAL_swiper_container.swiper-container-initialized.swiper-container-horizontal > ul > li.swiper-slide.type_theme.swiper-slide-active > a > div.me_album_tracklist > div > ul:nth-child(1) > li:nth-child({0}) > div > strong'.format(i)).get_text())
+        mam = parse.select_one('#main > div > section.section_content_wrap.personal > div.section_content.swiper_horizon.PERSONAL_swiper_container.swiper-container-initialized.swiper-container-horizontal > ul > li.swiper-slide.type_theme.swiper-slide-active > a > div.me_album_tracklist > div > ul:nth-child(1) > li:nth-child({0}) > div > strong'.format(i)).get_text()
+        embed.add_field(name=mam, value='ㅤ', inline=False)
+
+    
+    
+
+    embed.set_footer(text='flo api')
+    driver.quit()
+
+    await ctx.send(embed=embed)
+    await buttons.send(
+        content = "아래쪽 버튼을 눌러주세요.",
+        channel = ctx.channel.id,
+        components = [
+            ActionRow([
+                Button(
+                    label="추천곡 리스트를 목록에 저장하기", 
+                    style=ButtonType().Primary, 
+                    custom_id="button_two"       
+                )
+            ])
+        ]
+    )
+
+
+
+
+@buttons.click
+async def button_two(ctx):
+    for i in range(len(mum)):
+        print(mum[i])
+        user.append(mum[i])
+        result, URLTEST = title(mum[i])
+        song_queue.append(URLTEST)
+    
+    await ctx.reply(mum[i] + "를 대기열 목록에 추가했습니다.")
 
         
         
