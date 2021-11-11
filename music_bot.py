@@ -140,15 +140,15 @@ async def 도움(ctx):
     embed.add_field(name = bot.command_prefix + "나가", value = "뮤직봇이 채널에서 나갑니다.", inline = False)
     embed.add_field(name = bot.command_prefix + "재생 [노래 이름]  [작곡가] ", value = "유튜브검색기능을 활용하여 찾아드립니다.", inline = False)
     embed.add_field(name = bot.command_prefix + "목록", value = "자신의 플레이 리스트를 볼수있습니다", inline = False)
-    embed.add_field(name = bot.command_prefix + "목록초기화", value = "목록에 있는 모든 대기열들 삭제합니다", inline = False)
-    embed.add_field(name = bot.command_prefix + "대기열추가 [노래 이름] [작곡가]", value = "음악이 목록에 추가됩니다.", inline = False)
-    embed.add_field(name = bot.command_prefix + "대기열삭제 [대기열 번호]", value = "대기열에 있는 목록이 삭제됩니다..", inline = False)
+    embed.add_field(name = bot.command_prefix + "목록초기화", value = "목록에 있는 모든 대기열을 삭제합니다", inline = False)
+    embed.add_field(name = bot.command_prefix + "목록추가 [노래 이름] [작곡가]", value = "음악이 목록에 추가됩니다.", inline = False)
+    embed.add_field(name = bot.command_prefix + "목록삭제 [대기열 번호]", value = "대기열에 있는 목록이 삭제됩니다..", inline = False)
     embed.add_field(name = bot.command_prefix + "차트", value = "멜론 차트순위 1~10위까지의 노래를 가져옵니다.", inline = False)
     embed.add_field(name = bot.command_prefix + "가사 [노래이름]", value = "노래재목과 유사한 노래 1~5개 까지의 리스트를 뽑아옵니다.", inline = False)
     embed.add_field(name = bot.command_prefix + "선택 [번호]", value = "선택된 노래의 가사를 가져옵니다.", inline = False)
     embed.add_field(name = bot.command_prefix + "즐겨찾기 [추가, 삭제]", value = "즐겨찾기한 노래의 목록을 볼수 있습니다 [추가할수 있습니다] [삭제할수 있습니다]", inline = False)
     embed.add_field(name = bot.command_prefix + "추천곡", value = "추천곡을 즉시 재생할수 있습니다. [이미 재생중이라면 목록으로 자동추가 됩니다.]", inline = False)
-    
+    embed.add_field(name = bot.command_prefix + "추천곡리스트", value = "무작위로 추천곡 4개를 선곡하여 목록으로 추가시킬수 있습니다. [대기시간 필요]")
     await ctx.send(embed=embed)
 
 
@@ -252,7 +252,7 @@ async def 재생(ctx, *, msg):
         
 @bot.command()
 async def 스킵(ctx):
-    if len(user) > 1:
+    if len(user) >= 1:
         if vc.is_playing():
             vc.stop()
             global number
@@ -261,7 +261,7 @@ async def 스킵(ctx):
         else:
             await ctx.send("노래가 이미 재생되고 있어요!")
     else:
-        await ctx.send("목록에 노래가 2개 이상 없네요..")
+        await ctx.send("더이상 스킵할 노래가 없습니다.")
         
 
 @bot.command(aliases=('ㅈㅈ', 'ㅇㅅㅈㅈ'))
