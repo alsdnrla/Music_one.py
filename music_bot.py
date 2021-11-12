@@ -215,6 +215,7 @@ async def 재생(ctx, *, msg):
         #selenium웹 드라이버를 보이지 않게하는 설정
         options = webdriver.ChromeOptions()
         options.add_argument("headless")
+        options.add_argument("lang=ko_KR")
 
         
         global entireText
