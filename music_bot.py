@@ -251,9 +251,6 @@ async def 재생(ctx, *, msg):
             info = ydl.extract_info(url, download=False)
         URL = info['formats'][0]['url']
         embed = discord.Embed(title= "노래 재생", description = "현재 " + "[{0}](<{1}>)".format(entireText, url) + "을(를) 재생하고 있습니다.", color = 0x00ff00)
-        embed.add_field(name = '재생시간', value = data[enter2_:enter3], inline = False)
-        embed.add_field(name = '조회수', value = data[enter3:], inline = False)
-        embed.set_footer(text = data[enter1:enter2] + '/ ' + data[enter2:enter2_])
         await ctx.send(embed=embed)
         vc.play(FFmpegPCMAudio(URL, **FFMPEG_OPTIONS), after = lambda e: play_next(ctx))
     else:
