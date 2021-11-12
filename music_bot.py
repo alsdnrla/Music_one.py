@@ -227,6 +227,14 @@ async def 재생(ctx, *, msg):
         bs = bs4.BeautifulSoup(source, 'lxml')
         entire = bs.find_all('a', {'id': 'video-title'})
         entireNum = entire[0]
+        data = str(entireNum)
+        start_pos = data.find('label="') + 7
+        end_pos = data.find('" class', start_pos)
+        data = data[start_pos:end_pos]
+        enter1 = data.find('게시자: ')
+        enter2 = data.find(' 전 ')  - 3
+        enter2_ = data.find(' 전 ') + 3
+        enter3 = data.find(' 조회수')
         entireText = entireNum.text.strip()
         musicurl = entireNum.get('href')
         url = 'https://www.youtube.com'+musicurl
@@ -240,7 +248,11 @@ async def 재생(ctx, *, msg):
         with YoutubeDL(YDL_OPTIONS) as ydl:
             info = ydl.extract_info(url, download=False)
         URL = info['formats'][0]['url']
-        await ctx.send(embed = discord.Embed(title= "노래 재생", description = "현재 " + musicnow[0] + "을(를) 재생하고 있습니다.", color = 0x00ff00))
+        embed = discord.Embed(title= "노래 재생", description = "현재 " + "[{0}](<{1}>)".format(entireText, url) + "을(를) 재생하고 있습니다.", color = 0x00ff00)
+        embed.add_field(name = '재생시간', value = data[enter2_:enter3], inline = False)
+        embed.add_field(name = '조회수', value = data[enter3:], inline = False)
+        embed.set_footer(text = data[enter1:enter2] + '/ ' + data[enter2:enter2_])
+        await ctx.send(embed=embed)
         vc.play(FFmpegPCMAudio(URL, **FFMPEG_OPTIONS), after = lambda e: play_next(ctx))
     else:
         user.append(msg)
