@@ -14,6 +14,7 @@ import requests
 import os
 import discord_fortuneTell
 import random
+from pytube import YouTube
 
 bot = commands.Bot(command_prefix=';')
 client = discord.Client()
@@ -104,7 +105,6 @@ def load_chrome_driver():
     options.binary_location = os.getenv('GOOGLE_CHROME_BIN')
 
     options.add_argument('--headless')
-    options.add_argument('--lang=ko')
     # options.add_argument('--disable-gpu')
     options.add_argument('--no-sandbox')
 
@@ -229,17 +229,11 @@ async def 재생(ctx, *, msg):
         bs = bs4.BeautifulSoup(source, 'lxml')
         entire = bs.find_all('a', {'id': 'video-title'})
         entireNum = entire[0]
-        data = str(entireNum)
-        start_pos = data.find('label="') + 7
-        end_pos = data.find('" class', start_pos)
-        data = data[start_pos:end_pos]
-        enter1 = data.find('게시자: ')
-        enter2 = data.find(' 전 ')  - 3
-        enter2_ = data.find(' 전 ') + 3
-        enter3 = data.find(' 조회수')
         entireText = entireNum.text.strip()
         musicurl = entireNum.get('href')
         url = 'https://www.youtube.com'+musicurl
+        
+        yt = YouTube(url)
 
         #드라이버 닫기
 
@@ -251,6 +245,10 @@ async def 재생(ctx, *, msg):
             info = ydl.extract_info(url, download=False)
         URL = info['formats'][0]['url']
         embed = discord.Embed(title= "노래 재생", description = "현재 " + "[{0}](<{1}>)".format(entireText, url) + "을(를) 재생하고 있습니다.", color = 0x00ff00)
+        embed.add_field(name = '재생시간', value = str(yt.length) + "초", inline = False)
+        embed.add_field(name = '평점', value = str(yt.rating) + "회", inline = False)
+        embed.set_footer(text = '게시자 - ' + yt.author)
+        embed.set_thumbnail(url=yt.thumbnail_url)
         await ctx.send(embed=embed)
         vc.play(FFmpegPCMAudio(URL, **FFMPEG_OPTIONS), after = lambda e: play_next(ctx))
     else:
@@ -498,7 +496,13 @@ async def 반복재생(ctx, *, msg):
     musicnow.insert(0, entireText)
     test1 = entireNum.get('href')
     url = 'https://www.youtube.com'+test1
-    await ctx.send(embed = discord.Embed(title= "반복재생", description = "현재 " + musicnow[0] + "을(를) 반복재생하고 있습니다.", color = 0x00ff00))
+    yt = YouTube(url)
+    embed = discord.Embed(title= "반복재생", description = "현재 " + "[{0}](<{1}>)".format(musicnow[0], url)+ "을(를) 반복재생하고 있습니다.", color = 0x00ff00)
+    embed.add_field(name = '재생시간', value = str(yt.length) + "초", inline = False)
+    embed.add_field(name = '평점', value = str(yt.rating) + "회", inline = False)
+    embed.set_footer(text = '게시자 - ' + yt.author)
+    embed.set_thumbnail(url=yt.thumbnail_url)
+    await ctx.send(embed = embed)
     again(ctx, url)
 
 
