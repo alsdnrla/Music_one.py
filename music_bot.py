@@ -140,6 +140,7 @@ async def 도움(ctx):
     embed.add_field(name = bot.command_prefix + "들어와", value = "뮤직봇이 음성채널에 들어갑니다.", inline = False)
     embed.add_field(name = bot.command_prefix + "나가", value = "뮤직봇이 채널에서 나갑니다.", inline = False)
     embed.add_field(name = bot.command_prefix + "재생 [노래 이름]  [작곡가] ", value = "유튜브검색기능을 활용하여 찾아드립니다.", inline = False)
+    embed.add_field(name = bot.command_prefix + "반복재생 [노래 이름] [작곡가] ", value = "찾은 노래를 반복재생합니다..", inline = False)
     embed.add_field(name = bot.command_prefix + "목록", value = "자신의 플레이 리스트를 볼수있습니다", inline = False)
     embed.add_field(name = bot.command_prefix + "목록초기화", value = "목록에 있는 모든 대기열을 삭제합니다", inline = False)
     embed.add_field(name = bot.command_prefix + "목록추가 [노래 이름] [작곡가]", value = "음악이 목록에 추가됩니다.", inline = False)
@@ -874,6 +875,14 @@ async def button_two(ctx):
         song_queue.append(URLTEST)
     
     await ctx.reply(mum[i] + "를 대기열 목록에 추가했습니다.")
+    
+    
+    
+    
+    
+@bot.command()
+async def ping(ctx: Context):
+    await ctx.send(f":ping_pong: 퐁! ({bot.latency * 1000:.2f}ms)")
 
         
         
