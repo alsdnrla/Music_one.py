@@ -880,9 +880,7 @@ async def button_two(ctx):
     
     
     
-@bot.command()
-async def ping(ctx: Context):
-    await ctx.send(f":ping_pong: 퐁! ({bot.latency * 1000:.2f}ms)")
+
 
         
         
