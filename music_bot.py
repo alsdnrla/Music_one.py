@@ -962,7 +962,7 @@ async def 가입(ctx, *content):
     await checkUser(ctx, lambda: sendAlreadyRegisteredMessage(ctx), lambda: register(ctx))
 
 
-@bot.command(aliases=['ㄷ', 'ehs', 'e', 'money'])
+@bot.command(aliases=['지갑', 'ehs', 'card', 'money'])
 async def 돈(ctx, *content):
     try:
         if content[0] in sendMoneyCommand:
@@ -978,7 +978,7 @@ async def 보유주식(ctx):
         
         await raiseError(ctx, '가입 먼저 해주시고 이용해 주세요!')
 
-@bot.command(aliases=['ㅈㅅ', 'wntlr', 'wt', 'stock'])
+@bot.command(aliases=['wntlr', 'wt', 'stock'])
 async def 주식(ctx, *content):
     try:
         if content[0] in myStockCommand:
