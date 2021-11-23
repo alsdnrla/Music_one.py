@@ -29,7 +29,6 @@ from pytube import YouTube
 
 bot = commands.Bot(command_prefix=';')
 client = discord.Client()
-client = commands.Bot(command_prefix=';')
 buttons = ButtonsClient(bot)
 
 
@@ -896,8 +895,7 @@ with open('./userdata.json', 'r') as json_file:
 
 
 
-client = commands.Bot(command_prefix=prefix)
-client.remove_command('help')
+
 
 
 def getNowPrice(name, df):
@@ -954,17 +952,17 @@ latestLotteryCommand = ['최신', '현재', 'ㅊㅅ', 'ㅎㅈ', 'ct', 'gw', 'now
 lotteryAutoCommand = ['자동', 'ㅈㄷ', 'auto', 'we']
 
 
-@client.command(aliases=['도움', '명령어', '커맨드', 'help', 'command', 'commands'])
-async def 도움말(ctx, *content):
+@bot.command(aliases=['주식명령어', '주식 커맨드'])
+async def 주식도움말(ctx, *content):
     await ctx.send(embed=discord.Embed(color=0x0067a3, title=':information_source: 도움말 확인', description='자세한 설명은 [이곳](<https://stockbot.alan.imdeo.kr/>)에서 보실 수 있습니다.'))
 
 
-@client.command(aliases=['ㄱㅇ', 'join', 'register'])
+@bot.command(aliases=['ㄱㅇ', 'join', 'register'])
 async def 가입(ctx, *content):
     await checkUser(ctx, lambda: sendAlreadyRegisteredMessage(ctx), lambda: register(ctx))
 
 
-@client.command(aliases=['ㄷ', 'ehs', 'e', 'money'])
+@bot.command(aliases=['ㄷ', 'ehs', 'e', 'money'])
 async def 돈(ctx, *content):
     try:
         if content[0] in sendMoneyCommand:
@@ -972,7 +970,7 @@ async def 돈(ctx, *content):
     except IndexError:
         await checkUser(ctx, lambda: showMoney(ctx, str(ctx.author.id)))
 
-@client.command()
+@bot.command()
 async def 보유주식(ctx):
     try:
         await checkUser(ctx, lambda: myStock(ctx, str(ctx.author.id), corpList))
@@ -980,7 +978,7 @@ async def 보유주식(ctx):
         
         await raiseError(ctx, '가입 먼저 해주시고 이용해 주세요!')
 
-@client.command(aliases=['ㅈㅅ', 'wntlr', 'wt', 'stock'])
+@bot.command(aliases=['ㅈㅅ', 'wntlr', 'wt', 'stock'])
 async def 주식(ctx, *content):
     try:
         if content[0] in myStockCommand:
@@ -999,13 +997,13 @@ async def 주식(ctx, *content):
         await raiseError(ctx, '형식에 맞게 명령어를 입력하세요.\n주가 확인: `%s주식 [기업명]`\n내 주식 확인: `%s주식 내주식`\n구매: `%s주식 구매 [기업명] [수량]`\n판매: `%s주식 판매 [기업명] [수량]`' % (prefix, prefix, prefix))
 
 
-@client.command(aliases=['한강물', 'ㅎㄱ', 'ㅎㄱㅁ', 'gksrkd', 'gksrkdanf', 'gr', 'gra'])
+@bot.command(aliases=['한강물', 'ㅎㄱ', 'ㅎㄱㅁ', 'gksrkd', 'gksrkdanf', 'gr', 'gra'])
 async def 한강(ctx):
     request = requests.get('http://hangang.dkserver.wo.tc')
     await ctx.send(embed=discord.Embed(color=0x0067a3, title=':ocean: 현재 한강 수온', description='현재 한강의 수온은 `%s ℃` 입니다.\n\n자살 예방 핫라인 :telephone: 1577-0199\n희망의 전화 :telephone: 129' % literal_eval(request.text[1:])['temp']))
 
 
-@client.command(aliases=['돈받기', 'ㄷㅂㄱ', 'eqr'])
+@bot.command(aliases=['돈받기', 'ㄷㅂㄱ', 'eqr'])
 async def 용돈(ctx):
     nowtime = time.localtime(time.time())
     if userdata[str(ctx.author.id)]['lastClaim'] == [nowtime.tm_year, nowtime.tm_yday]:
@@ -1033,7 +1031,7 @@ def getLotto(drwNo):
 
 
 
-@client.command(aliases=['복권', 'lotto'])
+@bot.command(aliases=['복권', 'lotto'])
 async def 로또(ctx, *content):
     try:
         if content[0] in buyStockCommand:
@@ -1134,7 +1132,7 @@ async def 로또(ctx, *content):
     except:
         await raiseError(ctx, '형식에 맞게 명령어를 입력하세요.\n구매: `%s로또 구매 자동/[번호1 번호2 번호3 번호4 번호5 번호6]`\n당첨 확인: `%s로또 확인`\n번호 확인: `%s로또 번호 최신/[회차 번호]`' % (prefix, prefix, prefix))
 
-@client.command()
+@bot.command()
 async def admin(ctx, *content):
     if ctx.author.id == 324101597368156161 or ctx.author.id == 828515050640637973:
         if content[0] == 'setMoney':
@@ -1158,7 +1156,7 @@ async def admin(ctx, *content):
         await raiseError(ctx, '운영자가 아닙니다.')
 
 
-@client.event
+@bot.event
 async def raiseError(ctx, msg):
     await ctx.send(embed=discord.Embed(color=0xff0000, title=':warning: 오류', description=msg))
 
@@ -1344,5 +1342,4 @@ corpList = pd.read_html('http://kind.krx.co.kr/corpgeneral/corpList.do?method=do
 
             
 access_token = os.environ["BOT_TOKEN"] 
-client.run(acess_token)
 bot.run(access_token)
