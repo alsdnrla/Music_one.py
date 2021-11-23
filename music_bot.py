@@ -162,6 +162,7 @@ async def 도움(ctx):
     embed.add_field(name = bot.command_prefix + "즐겨찾기 [추가, 삭제]", value = "즐겨찾기한 노래의 목록을 볼수 있습니다 [추가할수 있습니다] [삭제할수 있습니다]", inline = False)
     embed.add_field(name = bot.command_prefix + "추천곡", value = "추천곡을 즉시 재생할수 있습니다. [이미 재생중이라면 목록으로 자동추가 됩니다.]", inline = False)
     embed.add_field(name = bot.command_prefix + "추천곡리스트", value = "무작위로 추천곡 4개를 선곡하여 목록으로 추가시킬수 있습니다. [대기시간 필요]")
+    embed.add_field(name = bot.command_prefix + "주식도움말", value = "<New!> 주식명령어를 볼수 있습니다. [beta] ", inline = False)
     await ctx.send(embed=embed)
 
 
@@ -954,7 +955,12 @@ lotteryAutoCommand = ['자동', 'ㅈㄷ', 'auto', 'we']
 
 @bot.command(aliases=['주식명령어', '주식 커맨드'])
 async def 주식도움말(ctx, *content):
-    await ctx.send(embed=discord.Embed(color=0x0067a3, title=':information_source: 도움말 확인', description='자세한 설명은 [이곳](<https://stockbot.alan.imdeo.kr/>)에서 보실 수 있습니다.'))
+    embed.add_field(name = bot.command_prefix + "주식 매수 <기업명/종목코드> <수량/올인>", value = " 그 기업의 주식을 <수량만큼> 매수합니다.", inline = False)
+    embed.add_field(name = bot.command_prefix + "주식 매도 <기업명/종목코드> <수량/올인>", value = "그 기업의 주식을 <수량만큼> 매도합니다.", inline = False)
+    embed.add_field(name = bot.command_prefix + "보유주식", value = "자신이 가지고 있는 주식을 보여줍니다.", inline = False)
+    embed.add_field(name = bot.command_prefix + "지갑", value = "자신이 가지고 있는 돈을 보여줍니다", inline = False)
+    embed.add_field(name = bot.command_prefix + "용돈", value = "20,0000원 에서 50,0000원 까지 용돈을 부여합니다 [하루에 한번씩 받을수 있음]", inline = False)
+    await ctx.send(embed=embed)
 
 
 @bot.command(aliases=['ㄱㅇ', 'join', 'register'])
@@ -1009,7 +1015,7 @@ async def 용돈(ctx):
     if userdata[str(ctx.author.id)]['lastClaim'] == [nowtime.tm_year, nowtime.tm_yday]:
         await raiseError(ctx, '오늘 용돈을 이미 받으셨습니다. 내일 다시 시도하세요.')
     else:
-        money = round(random.randrange(20000, 50001), -2)
+        money = round(random.randrange(200000, 500001), -2)
         userdata[str(ctx.author.id)]['lastClaim'] = [nowtime.tm_year, nowtime.tm_yday]
         userdata[str(ctx.author.id)]['money'] += money
         await ctx.send(embed=discord.Embed(color=0x008000, title=':money_with_wings: 오늘의 용돈', description='오늘 용돈으로 `%s원`을 받았습니다.\n 현재 잔액: `%s원`' % (format(money, ','), format(userdata[str(ctx.author.id)]['money'], ','))))
