@@ -955,11 +955,13 @@ lotteryAutoCommand = ['자동', 'ㅈㄷ', 'auto', 'we']
 
 @bot.command(aliases=['주식명령어', '주식 커맨드'])
 async def 주식도움말(ctx, *content):
+    embed = discord.Embed(title = "멸망의 주식시장", description = "현재 존재하는 모든 주식의 매매가 가능합니다.", color = 0x6E17E3)
     embed.add_field(name = bot.command_prefix + "주식 매수 <기업명/종목코드> <수량/올인>", value = " 그 기업의 주식을 <수량만큼> 매수합니다.", inline = False)
     embed.add_field(name = bot.command_prefix + "주식 매도 <기업명/종목코드> <수량/올인>", value = "그 기업의 주식을 <수량만큼> 매도합니다.", inline = False)
     embed.add_field(name = bot.command_prefix + "보유주식", value = "자신이 가지고 있는 주식을 보여줍니다.", inline = False)
     embed.add_field(name = bot.command_prefix + "지갑", value = "자신이 가지고 있는 돈을 보여줍니다", inline = False)
     embed.add_field(name = bot.command_prefix + "용돈", value = "20,0000원 에서 50,0000원 까지 용돈을 부여합니다 [하루에 한번씩 받을수 있음]", inline = False)
+    embed.set_footer(text = "Beta - 앞으로의 업데이트를 기대해 주세요!")
     await ctx.send(embed=embed)
 
 
