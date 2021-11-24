@@ -914,6 +914,7 @@ def getNowPrice(name, df):
         day = datetime.today().day
         month = datetime.today().month
         print('지금시간은 {0}년 {1}월 {2}일 입니다.'.format(year, month, day))
+        print('지금시간은' + datetime.now().strftime('%H - %M - %S'))
         if datetime.today().weekday() == 5:
             day += -1
         elif datetime.today().weekday() == 6:
