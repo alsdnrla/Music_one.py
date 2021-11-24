@@ -910,31 +910,11 @@ def getNowPrice(name, df):
         code = code.zfill(6)
         name = str(df[df.종목코드 == int(code.lstrip("0"))].회사명.values)[2:-2]
     finally:
-        year = datetime.today().year
-        day = datetime.today().day
-        month = datetime.today().month
+        year = datetime.now(timezone('Asia/Seoul')).strftime('%Y')
+        day = datetime.now(timezone('Asia/Seoul')).strftime('%d')
+        month = datetime.now(timezone('Asia/Seoul')).strftime('%m')
         print('지금시간은 {0}년 {1}월 {2}일 입니다.'.format(year, month, day))
         print('지금시간은' + datetime.now().strftime('%H - %M - %S'))
-        if datetime.today().weekday() == 5:
-            day += -1
-        elif datetime.today().weekday() == 6:
-            day += -2
-        elif datetime.today().hour < 9:
-            if datetime.today().weekday() == 0:
-                day += -2
-            day += -1
-        if day < 1:
-            month += -1
-            if month in [1, 3, 5, 7, 8, 10, 12]:
-                day = 31
-            elif month in [4, 6, 9, 11]:
-                day = 30
-            elif month == 2:
-                day = 29
-        if month == 0:
-            month = 12
-            year += -1
-            day = 31
         now = str(year) + str(month).zfill(2) + str(day).zfill(2) + "235959"
         request = requests.get('https://finance.naver.com/item/sise_time.nhn?code=' + code + '&thistime=' + now, headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36'})
         soup = BeautifulSoup(request.text, 'html.parser')
