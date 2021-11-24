@@ -910,10 +910,10 @@ def getNowPrice(name, df):
         code = code.zfill(6)
         name = str(df[df.종목코드 == int(code.lstrip("0"))].회사명.values)[2:-2]
     finally:
-        year = int(datetime.now(timezone('Asia/Seoul')).strftime('%Y'))
-        day = int(datetime.now(timezone('Asia/Seoul')).strftime('%d'))
-        month = int(datetime.now(timezone('Asia/Seoul')).strftime('%m'))
-        print(day)
+        year = datetime.today().year
+        day = datetime.today().day
+        month = datetime.today().month
+        print('지금시간은 {0}년 {1}월 {2}일 입니다.'.format(year, month, day))
         if datetime.today().weekday() == 5:
             day += -1
         elif datetime.today().weekday() == 6:
