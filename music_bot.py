@@ -25,7 +25,7 @@ import re
 import discord_fortuneTell
 import random
 from pytube import YouTube
-from pytz import timezone
+
 
 
 
@@ -900,8 +900,9 @@ with open('./userdata.json', 'r') as json_file:
 
 
 
-
 def getNowPrice(name, df):
+    import datetime
+    dt_kst = datetime.datetime.utcnow() + datetime.timedelta(hours=9)
     try:
         code = str(int(name))
     except ValueError:
@@ -910,14 +911,35 @@ def getNowPrice(name, df):
         code = code.zfill(6)
         name = str(df[df.종목코드 == int(code.lstrip("0"))].회사명.values)[2:-2]
     finally:
-        dt_kst = datetime.datetime.utcnow() + datetime.timedelta(hours=9)
-
-        year = dt_kst.strftime('%Y')
-        day = dt_kst.strftime('%d')
-        month = dt_kst.strftime('%m')
-        print('지금시간은 {0}년 {1}월 {2}일 입니다.'.format(year, month, day))
-        print('지금시간은' + dt_kst.strftime('%H - %M - %S'))
+        year = int(dt_kst.strftime('%Y'))
+        day = int(dt_kst.strftime('%d'))
+        month = int(dt_kst.strftime('%m'))
+        print('지금 시각은 {0}년 {1}월 {2}일 입니다'.format(year, month, day))
+        print('시각 = ' + dt_kst.strftime('%H - %M - %S'))
+        dty_1 = int(dt_kst.today().weekday())
+        dty_2 = int(dt_kst.today().hour)
+        if dty_1 == 5:
+            day += -1
+        elif dty_1 == 6:
+            day += -2
+        elif dty_2 < 9:
+            if dty_1 == 0:
+                day += -2
+            day += -1
+        if day < 1:
+            month += -1
+            if month in [1, 3, 5, 7, 8, 10, 12]:
+                day = 31
+            elif month in [4, 6, 9, 11]:
+                day = 30
+            elif month == 2:
+                day = 29
+        if month == 0:
+            month = 12
+            year += -1
+            day = 31
         now = str(year) + str(month).zfill(2) + str(day).zfill(2) + "235959"
+        print(now)
         request = requests.get('https://finance.naver.com/item/sise_time.nhn?code=' + code + '&thistime=' + now, headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36'})
         soup = BeautifulSoup(request.text, 'html.parser')
         price = soup.find('span', class_='tah p11')
