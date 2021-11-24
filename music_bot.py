@@ -914,7 +914,7 @@ def getNowPrice(name, df):
         day = datetime.now(timezone('Asia/Seoul')).strftime('%d')
         month = datetime.now(timezone('Asia/Seoul')).strftime('%m')
         print('지금시간은 {0}년 {1}월 {2}일 입니다.'.format(year, month, day))
-        print('지금시간은' + datetime.now().strftime('%H - %M - %S'))
+        print('지금시간은' + datetime.now(timezone('Asia/Seoul')).strftime('%H - %M - %S'))
         now = str(year) + str(month).zfill(2) + str(day).zfill(2) + "235959"
         request = requests.get('https://finance.naver.com/item/sise_time.nhn?code=' + code + '&thistime=' + now, headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36'})
         soup = BeautifulSoup(request.text, 'html.parser')
