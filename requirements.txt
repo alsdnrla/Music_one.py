@@ -23,10 +23,8 @@ multidict
 numpy
 pandas
 python-dateutil
-pytz
 six
 soupsieve
 typing-extensions
-urllib3
 yarl
-pytz
+
