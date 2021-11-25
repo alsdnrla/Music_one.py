@@ -918,8 +918,8 @@ def getNowPrice(name, df):
         bs_obj = bs4.BeautifulSoup(html, "html.parser")
     
         data = bs_obj.find("div", {"class": "today"})
-        data_first = CJ_data.find("span", {"class": "blind"})
-        data_realTime = CJ_data_first.text  # 실시간 가격
+        data_first = data.find("span", {"class": "blind"})
+        data_realTime = data_first.text  # 실시간 가격
         data_realTime_result = CJ_data_realTime.replace(",","")
         data_realTime_int = int(CJ_data_realTime_result)
         price = data_realTime_int
