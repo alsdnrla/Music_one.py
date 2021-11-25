@@ -941,12 +941,19 @@ def getNowPrice(name, df):
         now = str(year) + str(month).zfill(2) + str(day).zfill(2) + "235959"
         print(now)
         request = requests.get('https://finance.naver.com/item/sise_time.nhn?code=' + code + '&thistime=' + now, headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36'})
+        print('https://finance.naver.com/item/sise_time.nhn?code=' + code + '&thistime=' + now)
         soup = BeautifulSoup(request.text, 'html.parser')
         price = soup.find('span', class_='tah p11')
+        print(price)
+        print(name)
+        print(code)
         if price == None:
             code = None
         else:
             price = int(str(price).replace('<span class="tah p11">','').replace('</span>', '').replace(',', ''))
+            print(price)
+            print(name)
+            print(code)
         return name, code, price
 
 
