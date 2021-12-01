@@ -892,7 +892,7 @@ async def button_two(ctx):
     
     await ctx.reply(mum[i] + "를 대기열 목록에 추가했습니다.")
     
-    
+    """
 
 
 with open('./userdata.json', 'r') as json_file:
@@ -1334,7 +1334,7 @@ corpList = pd.read_html('http://kind.krx.co.kr/corpgeneral/corpList.do?method=do
 
 
     
-    
+    """
 
 
         
