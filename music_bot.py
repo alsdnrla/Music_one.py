@@ -898,6 +898,14 @@ async def button_two(ctx):
 async def start(ctx):
     link = await bot.togetherControl.create_link(ctx.author.voice.channel.id, 'youtube')
     await ctx.send(f"링크를 눌러주세요\n{link}")
+
+@bot.command()
+async def start(ctx, game_name):
+    try:
+        link = await bot.togetherControl.create_link(ctx.author.voice.channel.id, '{0}'.format(game_name))
+        await ctx.send(f"링크를 눌러주세요\n{link}")
+    except:
+        await ctx.send("1.게임이름이 정확한지 확인해 주세요 \n 2. 음성체널에 참가하여 있는지 확인해 주세요.")
     
     """
 
