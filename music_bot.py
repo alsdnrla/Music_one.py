@@ -145,7 +145,7 @@ async def on_ready():
     print(bot.user.name)
     print("connect was sucessful")
     await bot.change_presence(status=discord.Status.online, activity=discord.Game("갬성 힙합을 연구"))
-    bot.togetherControl = await DiscordTogether("access_token")
+    bot.togetherControl = await DiscordTogether(access_token)
     
     if not discord.opus.is_loaded():
         discord.opus.load_opus('opus')
