@@ -30,7 +30,7 @@ from pytube import YouTube
 from discord.ext import commands
 from discord_together import DiscordTogether
 
-
+access_token = os.environ["BOT_TOKEN"] 
 
 bot = commands.Bot(command_prefix=';')
 client = discord.Client()
@@ -145,7 +145,7 @@ async def on_ready():
     print(bot.user.name)
     print("connect was sucessful")
     await bot.change_presence(status=discord.Status.online, activity=discord.Game("갬성 힙합을 연구"))
-    bot.togetherControl = await DiscordTogether("ODg1MzMzOTczMDk2NTk1NTE2.YTlhgw.QRXq2mNfAdcVhNLQKIaM2An_OIM")
+    bot.togetherControl = await DiscordTogether("access_token")
     
     if not discord.opus.is_loaded():
         discord.opus.load_opus('opus')
@@ -1349,5 +1349,5 @@ corpList = pd.read_html('http://kind.krx.co.kr/corpgeneral/corpList.do?method=do
     
 
             
-access_token = os.environ["BOT_TOKEN"] 
+
 bot.run(access_token)
