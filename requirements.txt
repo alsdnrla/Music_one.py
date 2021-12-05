@@ -11,7 +11,7 @@ urllib3
 Options
 datetime
 discord_buttons_plugin
-DiscordTogether
+discord_together
 pytube
 aiohttp
 async-timeout
