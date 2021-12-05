@@ -900,7 +900,7 @@ async def start(ctx):
     await ctx.send(f"링크를 눌러주세요\n{link}")
 
 @bot.command()
-async def start(ctx, game_name):
+async def beta(ctx, game_name):
     try:
         link = await bot.togetherControl.create_link(ctx.author.voice.channel.id, '{0}'.format(game_name))
         await ctx.send(f"링크를 눌러주세요\n{link}")
