@@ -27,7 +27,8 @@ import re
 import discord_fortuneTell
 import random
 from pytube import YouTube
-
+from discord.ext import commands
+from discord_together import DiscordTogether
 
 
 
@@ -144,6 +145,7 @@ async def on_ready():
     print(bot.user.name)
     print("connect was sucessful")
     await bot.change_presence(status=discord.Status.online, activity=discord.Game("갬성 힙합을 연구"))
+    bot.togetherControl = await DiscordTogether("ODg1MzMzOTczMDk2NTk1NTE2.YTlhgw.QRXq2mNfAdcVhNLQKIaM2An_OIM")
     
     if not discord.opus.is_loaded():
         discord.opus.load_opus('opus')
@@ -891,6 +893,11 @@ async def button_two(ctx):
         song_queue.append(URLTEST)
     
     await ctx.reply(mum[i] + "를 대기열 목록에 추가했습니다.")
+    
+@bot.command()
+async def start(ctx):
+    link = await bot.togetherControl.create_link(ctx.author.voice.channel.id, 'youtube')
+    await ctx.send(f"링크를 눌러주세요\n{link}")
     
     """
 
