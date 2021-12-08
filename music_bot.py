@@ -168,7 +168,22 @@ async def 도움(ctx):
     embed.add_field(name = bot.command_prefix + "즐겨찾기 [추가, 삭제]", value = "즐겨찾기한 노래의 목록을 볼수 있습니다 [추가할수 있습니다] [삭제할수 있습니다]", inline = False)
     embed.add_field(name = bot.command_prefix + "추천곡", value = "추천곡을 즉시 재생할수 있습니다. [이미 재생중이라면 목록으로 자동추가 됩니다.]", inline = False)
     embed.add_field(name = bot.command_prefix + "추천곡리스트", value = "무작위로 추천곡 4개를 선곡하여 목록으로 추가시킬수 있습니다. [대기시간 필요]")
-    embed.add_field(name = bot.command_prefix + "주식도움말", value = "<New!> 주식명령어를 볼수 있습니다. [beta] ", inline = False)
+    embed.add_field(name = bot.command_prefix + "미니게임 도움말", value = "<New!> 미니게임 도움말을 볼수 있습니다. [beta] ", inline = False)
+    await ctx.send(embed=embed)
+    
+    
+@bot.command()
+async def 미니게임도움말(ctx):
+    poker_url = "https://www.7luck.com/JSPVIEW/default?URL_JSP=--guid--GUID_04_09_02&sel_lang_typ=KR"
+    chess_url = "https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=qpa9&logNo=30146423629"
+    checkers_url = "https://ko.wikihow.com/%EC%B2%B4%EC%BB%A4-%EA%B2%8C%EC%9E%84%ED%95%98%EB%8A%94-%EB%B2%95"
+        
+    embed = discord.Embed(title = "미니게임", description = "Discord-Together", color = 0x6E17E3) 
+    embed.add_field(name = bot.command_prefix + "`beta poker`", value = "텍사스 홀덤(포커) 최대 7인까지 가능하며 \n 룰은" + "[이곳에서](<{0}>)".format(poker_url) + "보실수 있습니다", inline = False)
+    embed.add_field(name = bot.command_prefix + "`beta chess`", value = "체스 최대 2인까지 가능하며 \n 룰은" + "[이곳에서](<{0}>)".format(chess_url) + "보실수 있습니다", inline = False)
+    embed.add_field(name = bot.command_prefix + "`beta checkers`", value = "체커 최대 2인까지 가능하며 \n 룰은" + "[이곳에서](<{0}>)".format(checkers_url) + "보실수 있습니다", inline = False)
+    embed.add_field(name = bot.command_prefix + "`beta youtube`", value = "유튜브에 영상을 함께 볼수 있습니다.", inline = False)
+    embed.set_footer(text='현제 모바일은 지원되지 않습니다.')
     await ctx.send(embed=embed)
 
 
