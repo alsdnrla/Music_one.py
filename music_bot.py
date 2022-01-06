@@ -947,7 +947,7 @@ async def 작성(ctx, *, msg):
 async def come(ctx, *, msg):
     try:
         message_text_who = str(msg)
-        ch = bot.get_channel(875546656144257055)
+        ch = bot.get_channel(864664103909064714)
         
         
         
