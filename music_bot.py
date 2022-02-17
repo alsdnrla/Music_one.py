@@ -962,7 +962,7 @@ async def come(ctx, *, msg):
 @bot.command()
 async def 전적(ctx, * ,user):
         
-    #try:
+    try:
 
         user_r = user.replace(" " , "")
 
@@ -1066,7 +1066,7 @@ async def 전적(ctx, * ,user):
         embed.set_footer(text='subs by op.gg')
         await ctx.send(embed=embed)
 
-    #except:
+    except:
         await ctx.send('존재하지 않는 유저이거나 최근 인게임 정보가 없습니다.')
         
         
