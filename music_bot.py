@@ -20,8 +20,6 @@ import requests
 from discord.utils import get
 import os
 import json
-import math
-import pandas as pd
 import random
 import re
 import discord_fortuneTell
@@ -961,6 +959,115 @@ async def come(ctx, *, msg):
         await ctx.send('error checking your source')
 
 
+@bot.command()
+async def 전적(ctx, * ,user):
+        
+    try:
+
+        user_r = user.replace(" " , "")
+
+        
+        game_type = []
+        when_start = []
+        game_result = []
+        chname = []
+
+        kda = []
+        score = []
+        th = []
+        kill_ar = []
+
+        s_url = 'https://www.op.gg/summoners/kr/' + user_r
+        
+        options = webdriver.ChromeOptions()
+        options.add_argument("headless")
+
+        driver = webdriver.Chrome(chromedriver_dir, options = options)
+
+        driver.get(s_url)
+
+        source = driver.page_source
+
+
+        soup = BeautifulSoup(source, 'lxml')
+
+        driver.quit()
+
+        for i in soup.select('div[class=info] > div[class=type]'):
+            game_type.append(i.text)
+        
+
+        for i in soup.select('div[class=time-stamp]'):
+            when_start.append(i.text)
+            
+
+        for i in soup.select('div[class=info] > div[class=game-result]'):
+            game_result.append(i.text)
+           
+
+
+
+        for i in soup.select('div[class=champion] > div[class=name]'):
+            chname.append(i.text)
+           
+            
+
+
+
+
+
+        for i in soup.select('div[class=k-d-a]'):
+            kda.append(i.text)
+            
+
+
+
+        for i in soup.select('div[class=ratio]'):
+            score.append(i.text)
+
+
+        for i in soup.select('div[class=kill-participantion]'):
+            kill_ar.append(i.text)
+
+        
+            
+        print('{0}  {1}  {2}  {3}  {4}'.format(game_type[2], when_start[0], game_result[0], kda[1], score[1]))
+
+            
+
+
+        
+        thunnail = soup.select('div[class=champion] > div[class=icon] > a > img')
+
+
+        th = []
+
+        for thunnails in thunnail:
+            th.append(thunnails['src'])
+
+        url = th[0]
+        sliced_url = url[0:url.index("?")]
+        
+
+
+
+        embed = discord.Embed(title="유저 이름: {0}".format(user), description = "[최근 인게임 정보입니다.](<{0}>) ".format(s_url) +  "ㅤㅤㅤㅤ ")
+        embed.add_field(name = '정보', value = game_type[2], inline=True)
+        embed.add_field(name = '시간', value = when_start[0], inline=True)
+        embed.add_field(name = '결과', value = game_result[0], inline=True)
+        embed.add_field(name = '챔피언', value = chname[0], inline=True)
+        embed.add_field(name = 'K-D-A', value = kda[1], inline=True)
+        embed.add_field(name = '킬 관여율', value = kill_ar[0], inline=True)
+
+        
+        embed.set_thumbnail(url=sliced_url)
+        
+        embed.set_footer(text= score[1])
+        embed.set_footer(text='subs by op.gg')
+        await ctx.send(embed=embed)
+
+    except:
+        await ctx.send('존재하지 않는 유저이거나 최근 인게임 정보가 없습니다.')
         
         
     
