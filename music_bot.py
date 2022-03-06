@@ -9,6 +9,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 import urllib.request
 import urllib.parse
+import requests
 import bs4
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -959,115 +960,61 @@ async def come(ctx, *, msg):
         await ctx.send('error checking your source')
 
 
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
 @bot.command()
-async def 전적(ctx, * ,user):
-        
-    try:
-
-        user_r = user.replace(" " , "")
-
-        
-        game_type = []
-        when_start = []
-        game_result = []
-        chname = []
-
-        kda = []
-        score = []
-        th = []
-        kill_ar = []
-
-        s_url = 'https://www.op.gg/summoners/kr/' + user_r
-        
-        options = webdriver.ChromeOptions()
-        options.add_argument("headless")
-
-        driver = load_chrome_driver()
-
-        driver.get(s_url)
-
-        source = driver.page_source
+async def 급식(ctx):
+  head = {"referer" : "https://school.iamservice.net/organization/18072/group/3315069",
+          "user-agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36"
+          
+      }
+  
+  req = requests.get("https://school.iamservice.net/api/article/organization/18072/group/3315069", headers = head)
+  
+  
+  result = req.json()
 
 
-        soup = BeautifulSoup(source, 'lxml')
-
-        driver.quit()
-
-        for i in soup.select('div[class=info] > div[class=type]'):
-            game_type.append(i.text)
-        
-
-        for i in soup.select('div[class=time-stamp]'):
-            when_start.append(i.text)
-            
-
-        for i in soup.select('div[class=info] > div[class=game-result]'):
-            game_result.append(i.text)
-           
-
-
-
-        for i in soup.select('div[class=champion] > div[class=name]'):
-            chname.append(i.text)
-           
-            
+  embed = discord.Embed(color=0x0090ff, title="급식정보를가져옵니다", description= "")
+  
+  
+  for results in result['articles']:
+      school_name = results['organization_name']
+      title = results['title']
+      content = results['content']
+      if results['images'] == None:
+          print("---------이미지 없음-----------")
+          img = "https://3.bp.blogspot.com/-ZKBbW7TmQD4/U6P_DTbE2MI/AAAAAAAADjg/wdhBRyLv5e8/s1600/noimg.gif"
+          break
+      else:
+          for imgs in results['images']:
+              img = imgs
+      break
 
 
+  embed = discord.Embed(color=0x0090ff, title= school_name , description= f"{title}")
+  embed.add_field(name=content, value = "ㅤㅤㅤ" , inline = True)
+  embed.set_thumbnail(url="https://iam-organization-r.akamaized.net/logo-image/18072/GKZf6k1wyz9YeEWy.png")
+  embed.set_image(url=img)
 
+  
+  
+  
 
+  
 
-        for i in soup.select('div[class=k-d-a]'):
-            kda.append(i.text)
-            
-
-
-
-        for i in soup.select('div[class=ratio]'):
-            score.append(i.text)
-
-
-        for i in soup.select('div[class=kill-participantion]'):
-            kill_ar.append(i.text)
-
-        
-            
-        print('{0}  {1}  {2}  {3}  {4}'.format(game_type[2], when_start[0], game_result[0], kda[1], score[1]))
-
-            
-
-
-        
-        thunnail = soup.select('div[class=champion] > div[class=icon] > a > img')
-
-
-        th = []
-
-        for thunnails in thunnail:
-            th.append(thunnails['src'])
-
-        url = th[0]
-        sliced_url = url[0:url.index("?")]
-        
-
-
-
-        embed = discord.Embed(title="유저 이름: {0}".format(user), description = "[최근 인게임 정보입니다.](<{0}>) ".format(s_url) +  "ㅤㅤㅤㅤ ")
-        embed.add_field(name = '정보', value = game_type[2], inline=True)
-        embed.add_field(name = '시간', value = when_start[0], inline=True)
-        embed.add_field(name = '결과', value = game_result[0], inline=True)
-        embed.add_field(name = '챔피언', value = chname[0], inline=True)
-        embed.add_field(name = 'K-D-A', value = kda[1], inline=True)
-        embed.add_field(name = '킬 관여율', value = kill_ar[0], inline=True)
-
-        
-        embed.set_thumbnail(url=sliced_url)
-        
-        embed.set_footer(text= score[1])
-        embed.set_footer(text='subs by op.gg')
-        await ctx.send(embed=embed)
-
-    except:
-        await ctx.send('존재하지 않는 유저이거나 최근 인게임 정보가 없습니다.')
+  await ctx.send(embed=embed)
         
         
     
