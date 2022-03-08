@@ -1017,7 +1017,51 @@ async def 급식(ctx):
   await ctx.send(embed=embed)
         
         
-    
+@bot.command()
+async def 공시정보(ctx):
+    try:
+        head = {
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.10 Safari/537.36"}
+
+        url = 'https://www.edufindkorea.com/edu/detail.php?uid=6674&schoolgubun=중학교'
+
+
+        req = requests.get(url, headers = head)
+
+
+        soup = BeautifulSoup(req.text, "lxml")
+
+
+
+
+        result = soup.find_all("td", {"style" : "text-align:center"})
+
+        a = []
+
+
+
+        for i in result:
+            a.append(i.text.strip("\t").strip("\n"))
+
+
+
+        embed = discord.Embed(title = "상암중학교", description = f"[공시데이터](<{url}>)", color = 0x6E17E3)
+        embed.add_field(name = a[25], value = f"`{a[34]}`", inline = True) #1
+        embed.add_field(name = a[26], value = f"`{a[35]}명`", inline = True) #2
+        embed.add_field(name = a[27], value = f"`{a[36]}명`", inline = True) #3
+        embed.add_field(name = a[28], value = f"`{a[37]}명`", inline = True) #4
+        embed.add_field(name = a[29], value = f"`{a[38]}명`", inline = True) #5
+        embed.add_field(name = a[30], value = f"`{a[39]}명`", inline = True)#6
+        embed.add_field(name = a[31], value = f"`{a[40]}명`", inline = True) #7
+        embed.add_field(name = a[32], value = f"`{a[41]}명`", inline = True) #8
+        embed.add_field(name = a[33], value = f"`{a[42]}명`", inline = True)
+        embed.set_footer(text = "비공식 정보입니다. - edufindKorea.com")
+
+
+
+        await ctx.send(embed = embed)
+    except:
+        await ctx.send("")
 
             
 
