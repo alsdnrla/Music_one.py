@@ -503,4 +503,7 @@ bot.add_cog(Music(bot))
 async def on_ready():
     print('Logged in as:\n{0.user.name}\n{0.user.id}'.format(bot))
 
-bot.run("")
+access_token = os.environ["BOT_TOKEN"]
+
+
+bot.run(access_token)
